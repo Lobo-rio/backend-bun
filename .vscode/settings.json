@@ -3,6 +3,8 @@
         "core": "rules",
         "adapters": "pipe",
         "external": "tools",
-        "users": "admin"
+        "users": "admin",
+        "posts": "core",
+        "helpers": "helper"
     }   
 }
