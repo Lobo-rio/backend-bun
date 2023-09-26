@@ -2,25 +2,23 @@ import UseCase from "../../shared/usecase";
 import User from "../model/User";
 import UserRepository from "../repository/UserRepository";
 
-type CreateUserRequest = {
+export type CreateUserRequest = {
+    id?: string
     name: string
     email: string
     password: string
+    createdAt?: Date
+    updatedAt?: Date
 }
 
-type CreateUserResponse = {
-    user: User
-}
-
-export default class CreateUser implements UseCase<CreateUserRequest, CreateUserResponse> {
+export default class CreateUser implements UseCase<CreateUserRequest, void> {
     constructor(
         private readonly repository: UserRepository
     ) {}
 
-    async executar(data: CreateUserRequest): Promise<CreateUserResponse> {
+    async executar(data: CreateUserRequest): Promise<void> {
         const userExisted = await this.repository.findByEmail(data.email)
         if (userExisted) throw new Error('User existed!')
-        const user = await this.repository.create(data)
-        return { user };
+        await this.repository.create(data)
     }
 }
