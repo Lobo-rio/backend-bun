@@ -1,11 +1,7 @@
 import { app } from "./external/api/config";
-import { MakeUser } from "./external/shared/factories/MakeUser";
+import { MakeUserInstantiateController } from "./external/shared/factories/MakeUserInstantiateController";
 
-MakeUser().findByIdUserController;
-MakeUser().findManyUserController;
-MakeUser().createUserController;
-MakeUser().updateUserController;
-MakeUser().deleteUserController;
+MakeUserInstantiateController(app);
 
 app.listen(3000);
 

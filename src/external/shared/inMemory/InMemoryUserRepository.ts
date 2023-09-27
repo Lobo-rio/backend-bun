@@ -7,7 +7,7 @@ import User from "../../../core/users/model/User";
 
 
 export default class InMemoryUserRepository  implements UserRepository{
-    private users: User[] = [];
+    public users: User[] = [];
 
     async findById(id: string) {
         const user = this.users.find( user => user.id === id) ?? null;

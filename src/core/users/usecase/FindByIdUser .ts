@@ -1,4 +1,4 @@
-import UseCase from "../../shared/usecase";
+import UseCase from "../../shared/usecase/usecase";
 import User from "../model/User";
 import UserRepository from "../repository/UserRepository";
 
