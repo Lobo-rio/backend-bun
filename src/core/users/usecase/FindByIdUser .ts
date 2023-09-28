@@ -6,19 +6,14 @@ type FindByIdUserRequest = {
     id: string
 }
 
-type FindByIdUserResponse = {
-    user: User
-}
-
-export default class FindByIdUser implements UseCase<FindByIdUserRequest, FindByIdUserResponse> {
+export default class FindByIdUser implements UseCase<FindByIdUserRequest, User> {
     constructor(
         private readonly repository: UserRepository
     ) {}
 
-    async executar(data: FindByIdUserRequest): Promise<FindByIdUserResponse> {
-        console.log(data.id)
+    async executar(data: FindByIdUserRequest): Promise<User> {
         const user = await this.repository.findById(data.id)
         if (!user) throw new Error('User not found');
-        return { user };
+        return user;
     }
 }

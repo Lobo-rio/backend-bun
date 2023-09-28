@@ -13,24 +13,28 @@ import FindByIdUser from "../../../core/users/usecase/FindByIdUser ";
 import FindManyUser from "../../../core/users/usecase/FindManyUser";
 import UpdateUser from "../../../core/users/usecase/UpdateUser";
 import Password from "../../../core/shared/password/Password";
+import PrismaUserRepository from "../prisma/PrismaUserRepository";
+import { PrismaClient } from "@prisma/client";
 
 export function MakeUserInstantiateController(app: Elysia) {
+    const prisma = new PrismaClient();
     const inMemoryRepository = new InMemoryUserRepository();
+    const prismaRepository = new PrismaUserRepository(prisma);
     const password = new Password();
 
-    const createUser = new CreateUser(inMemoryRepository, password)
+    const createUser = new CreateUser(prismaRepository, password)
     new CreateUserController(app, createUser);
 
-    const findManyUser = new FindManyUser(inMemoryRepository)
+    const findManyUser = new FindManyUser(prismaRepository)
     new FindManyUserController(app, findManyUser);
 
-    const findByIdUser = new FindByIdUser(inMemoryRepository)
+    const findByIdUser = new FindByIdUser(prismaRepository)
     new FindByIdUserController(app, findByIdUser);
 
-    const updateUser = new UpdateUser(inMemoryRepository)
+    const updateUser = new UpdateUser(prismaRepository)
     new UpdateUserController(app, updateUser);
 
-    const deleteUser = new DeleteUser(inMemoryRepository)
+    const deleteUser = new DeleteUser(prismaRepository)
     new DeleteUserController(app, deleteUser);
 
     return true;

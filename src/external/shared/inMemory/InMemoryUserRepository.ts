@@ -28,6 +28,8 @@ export default class InMemoryUserRepository  implements UserRepository{
         data.createdAt = new Date();
         data.updatedAt = new Date();
         this.users.push(data);
+        
+        return data;
     }
 
     async update(data: UpdateUserRequest) {

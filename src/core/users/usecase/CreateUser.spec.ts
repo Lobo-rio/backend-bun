@@ -18,6 +18,19 @@ describe('Create User', () => {
 
 
     it('should should be possible to create a user', async () => {
-        expect(4 + 4).toBe(8)
+        const newUser = makeUserCreate();
+        await sut.executar(newUser);
+
+        expect(inMemoryUserRepository.users.length).toBe(1);
+    })
+
+    it('should not be possible to register a user with the same email', async () => {
+        const newUser = makeUserCreate();
+        
+        for (let i = 0; i < 2; i++) {
+            await sut.executar(newUser);
+        }
+
+        expect(inMemoryUserRepository.users.length).toBe(1);
     })
 })
