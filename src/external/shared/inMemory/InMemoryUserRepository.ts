@@ -1,12 +1,13 @@
 import { v4 as uuid} from "uuid";
 
-import User from "../../core/users/model/User";
-import UserRepository from "../../core/users/repository/UserRepository";
-import { UpdateUserRequest } from "../../core/users/usecase/UpdateUser";
-import { CreateUserRequest } from "../../core/users/usecase/CreateUser";
+import UserRepository from "../../../core/users/repository/UserRepository";
+import { CreateUserRequest } from "../../../core/users/usecase/CreateUser";
+import { UpdateUserRequest } from "../../../core/users/usecase/UpdateUser";
+import User from "../../../core/users/model/User";
+
 
 export default class InMemoryUserRepository  implements UserRepository{
-    private users: User[] = [];
+    public users: User[] = [];
 
     async findById(id: string) {
         const user = this.users.find( user => user.id === id) ?? null;
@@ -27,6 +28,8 @@ export default class InMemoryUserRepository  implements UserRepository{
         data.createdAt = new Date();
         data.updatedAt = new Date();
         this.users.push(data);
+        
+        return data;
     }
 
     async update(data: UpdateUserRequest) {

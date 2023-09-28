@@ -9,11 +9,7 @@ export default class FindManyUserController {
         server.get('/users', async () => {
             const users = await findManyUsers.executar();
             
-            return {
-                body: {
-                    users
-                }
-            }
+            return { users }
         })
     }
 }

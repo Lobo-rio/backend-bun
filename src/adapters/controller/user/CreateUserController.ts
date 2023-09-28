@@ -8,14 +8,9 @@ export default class CreateUserController {
     ) {
         server.post('/users', async ({ body }) => {
             const { name, email, password } = body as any;
-            await createUser.executar({ name, email, password });
+            const user = await createUser.executar({ name, email, password });
             
-            return {
-                status: 201,
-                body: {
-                    message: 'User created!'
-                }
-            }
+            return user;
         })
     }
 }

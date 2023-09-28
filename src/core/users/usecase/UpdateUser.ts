@@ -1,4 +1,4 @@
-import UseCase from "../../shared/usecase";
+import UseCase from "../../shared/usecase/usecase";
 import UserRepository from "../repository/UserRepository";
 
 export type UpdateUserRequest = {
