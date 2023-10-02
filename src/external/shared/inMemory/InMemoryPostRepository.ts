@@ -1,54 +1,49 @@
 import { v4 as uuid} from "uuid";
 
-import UserRepository from "../../../core/users/repository/UserRepository";
-import { CreateUserRequest } from "../../../core/users/usecase/CreateUser";
-import { UpdateUserRequest } from "../../../core/users/usecase/UpdateUser";
-import User from "../../../core/users/model/User";
+import Post from "../../../core/posts/model/Post";
+import PostRepository from "../../../core/posts/repository/PostRepository";
+import { CreatePostRequest } from "../../../core/posts/usecase/CreatePost";
+import { UpdatePostRequest } from "../../../core/posts/usecase/UpdatePost";
 
 
-export default class InMemoryUserRepository  implements UserRepository{
-    public users: User[] = [];
+export default class InMemoryPostRepository  implements PostRepository{
+    public posts: Post[] = [];
 
     async findById(id: string) {
-        const user = this.users.find( user => user.id === id) ?? null;
-        return user;
-    }
-
-    async findByEmail(email: string) {
-        const user = this.users.find( user => user.email === email) ?? null;
-        return user;
+        const post = this.posts.find( post => post.id === id) ?? null;
+        return post;
     }
 
     async findMany() {
-        return this.users;
+        return this.posts;
     }
 
-    async create(data: CreateUserRequest) {
+    async create(data: CreatePostRequest) {
         data.id = uuid();
         data.createdAt = new Date();
         data.updatedAt = new Date();
-        this.users.push(data);
+        this.posts.push(data);
         
         return data;
     }
 
-    async update(data: UpdateUserRequest) {
-        const userExisted = this.users.find((user) => data.id === user.id)
+    async update(data: UpdatePostRequest) {
+        const postExisted = this.posts.find((post) => data.id === post.id)
         
-        if (userExisted) {
-            userExisted.name = data.name
-            userExisted.email = data.email 
+        if (postExisted) {
+            postExisted.title = data.title
+            postExisted.content = data.content
         }
 
-        const userIndex = this.users.findIndex((user) => data.id === user.id)
-        this.users.splice(userIndex, 1)
+        const postIndex = this.posts.findIndex((post) => data.id === post.id)
+        this.posts.splice(postIndex, 1)
 
-        if (userExisted) this.users.push(userExisted)
+        if (postExisted) this.posts.push(postExisted)
     }
 
     async delete(id: string) {
-        const userIndex = this.users.findIndex((user) => id === user.id)
-        this.users.splice(userIndex, 1)
+        const postIndex = this.posts.findIndex((post) => id === post.id)
+        this.posts.splice(postIndex, 1)
     }
 
 }

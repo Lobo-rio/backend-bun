@@ -1,5 +1,4 @@
 import { ResourceExistedError } from "../../shared/errors/resource-existed-error";
-import Password from "../../shared/password/Password";
 import { Either, left, right } from "../../shared/types/either";
 import UseCase from "../../shared/usecase/usecase";
 import UserRepository from "../../users/repository/UserRepository";
@@ -27,6 +26,8 @@ export default class CreatePost implements UseCase<CreatePostRequest, CreatePost
     ) {}
 
     async executar(data: CreatePostRequest): Promise<CreatePostResponse> {
+        const userExisted = await this.repositoryUser.findById(data.authorId);
+        if (!userExisted) return left(new ResourceExistedError())
         const post = await this.repositoryPost.create(data);
 
         return right(post);

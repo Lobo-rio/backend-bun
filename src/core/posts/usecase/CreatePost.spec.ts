@@ -1,39 +1,46 @@
 import { beforeEach, describe, expect, it } from "bun:test";
 
-import CreateUser from "./CreateUser";
 import InMemoryUserRepository from "../../../external/shared/inMemory/InMemoryUserRepository";
-import Password from "../../shared/password/Password";
+import InMemoryPostRepository from "../../../external/shared/inMemory/InMemoryPostRepository";
 import { makeUserCreate } from "../../../../test/factory/MakeUserCreate";
 import { ResourceNotFoundError } from "../../shared/errors/resource-not-found-error";
+import CreatePost from "./CreatePost";
+import { makePostCreate } from "../../../../test/factory/MakePostCreate";
 
 let inMemoryUserRepository: InMemoryUserRepository;
-let sut:CreateUser;
-let passwordEncrypt: Password;
+let inMemoryPostRepository: InMemoryPostRepository;
+let sut:CreatePost;
 
-describe('Create User', () => {
+describe('Create Post', () => {
 
     beforeEach(() => {
         inMemoryUserRepository = new InMemoryUserRepository()
-        sut = new CreateUser(inMemoryUserRepository, passwordEncrypt)
+        inMemoryPostRepository = new InMemoryPostRepository()
+        sut = new CreatePost(inMemoryPostRepository, inMemoryUserRepository)
     })
 
 
-    it('should should be possible to create a user', async () => {
+    it('should should be possible to create a post', async () => {
         const newUser = makeUserCreate();
-        await sut.executar(newUser);
+        const user = await inMemoryUserRepository.create(newUser)
 
-        expect(inMemoryUserRepository.users.length).toBe(1);
+        const authorId = user.id;
+        const newPost = makePostCreate(authorId)
+
+        await sut.executar(newPost);
+
+        expect(inMemoryPostRepository.posts.length).toBe(1);
     })
 
-    it('should not be possible to register a user with the same email', async () => {
+    it('should should not be possible to create a post if the author is not registered', async () => {
         const newUser = makeUserCreate();
-        let result: any
-        
-        for (let i = 0; i < 2; i++) {
-            result = await sut.executar(newUser);
-        }
+        await inMemoryUserRepository.create(newUser)
 
-        expect(inMemoryUserRepository.users.length).toBe(1);
-        expect(result.value.name).toBe('Error');
+        const authorId = 'test-id-author';
+        const newPost = makePostCreate(authorId)
+
+        const resultAuthor = await sut.executar(newPost);
+
+        expect(resultAuthor.value.name).toBe('Error');
     })
 })
