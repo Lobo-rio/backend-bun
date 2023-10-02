@@ -9,7 +9,7 @@ import UpdateUserController from "../../../adapters/controller/user/UpdateUserCo
 import InMemoryUserRepository from "../inMemory/InMemoryUserRepository";
 import CreateUser from "../../../core/users/usecase/CreateUser";
 import DeleteUser from "../../../core/users/usecase/DeleteUser";
-import FindByIdUser from "../../../core/users/usecase/FindByIdUser ";
+import FindByIdUser from "../../../core/users/usecase/FindByIdUser";
 import FindManyUser from "../../../core/users/usecase/FindManyUser";
 import UpdateUser from "../../../core/users/usecase/UpdateUser";
 import Password from "../../../core/shared/password/Password";

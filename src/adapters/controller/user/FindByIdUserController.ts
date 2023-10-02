@@ -1,5 +1,5 @@
 import Elysia from "elysia";
-import FindByIdUser from "../../../core/users/usecase/FindByIdUser ";
+import FindByIdUser from "../../../core/users/usecase/FindByIdUser";
 
 export default class FindByIdUserController {
     constructor(

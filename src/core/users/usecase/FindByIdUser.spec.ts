@@ -1,8 +1,7 @@
 import { beforeEach, describe, expect, it } from "bun:test";
 
-import FindByIdUser from "./FindByIdUser ";
+import FindByIdUser from "./FindByIdUser";
 import InMemoryUserRepository from "../../../external/shared/inMemory/InMemoryUserRepository";
-import Password from "../../shared/password/Password";
 import { makeUserCreate } from "../../../../test/factory/MakeUserCreate";
 
 let inMemoryUserRepository: InMemoryUserRepository;
