@@ -1,14 +1,17 @@
-import { User } from "@prisma/client";
 import { ResourceExistedError } from "../../shared/errors/resource-existed-error";
 import Password from "../../shared/password/Password";
 import { Either, left, right } from "../../shared/types/either";
 import UseCase from "../../shared/usecase/usecase";
+import User from "../model/User";
 import UserRepository from "../repository/UserRepository";
 
 export type CreateUserRequest = {
+    id: string
     name: string
     email: string
     password: string
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 type CreateUsersResponse = Either<

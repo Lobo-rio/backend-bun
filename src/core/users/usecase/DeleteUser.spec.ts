@@ -2,12 +2,11 @@ import { beforeEach, describe, expect, it } from "bun:test";
 
 import DeleteUser from "./DeleteUser";
 import InMemoryUserRepository from "../../../external/shared/inMemory/InMemoryUserRepository";
-import Password from "../../shared/password/Password";
 import { makeUserCreate } from "../../../../test/factory/MakeUserCreate";
+import { ResourceNotFoundError } from "../../shared/errors/resource-not-found-error";
 
 let inMemoryUserRepository: InMemoryUserRepository;
-let sut:DeleteUser;
-let passwordEncrypt: Password;
+let sut: DeleteUser;
 
 describe('Delete User', () => {
 
@@ -18,6 +17,22 @@ describe('Delete User', () => {
 
 
     it('should should be possible to delete a user', async () => {
-        expect(4 + 4).toBe(8)
+        const newUser = makeUserCreate();
+        const result = await inMemoryUserRepository.create(newUser)
+        const id = result.id;
+
+        await sut.executar({ id });
+
+        expect(inMemoryUserRepository.users.length).toBe(0);
+    })
+
+    it('should should be possible to delete the incorrect identifier', async () => {
+        const newUser = makeUserCreate();
+        await inMemoryUserRepository.create(newUser)
+        const id = 'test-id-user';
+
+        const resultId = await sut.executar({ id });
+        
+        expect(resultId.value).toBeInstanceOf(ResourceNotFoundError);
     })
 })
