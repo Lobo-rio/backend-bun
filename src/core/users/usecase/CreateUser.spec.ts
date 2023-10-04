@@ -4,6 +4,7 @@ import CreateUser from "./CreateUser";
 import InMemoryUserRepository from "../../../external/shared/inMemory/InMemoryUserRepository";
 import Password from "../../shared/password/Password";
 import { makeUserCreate } from "../../../../test/factory/MakeUserCreate";
+import { ResourceNotFoundError } from "../../shared/errors/resource-not-found-error";
 
 let inMemoryUserRepository: InMemoryUserRepository;
 let sut:CreateUser;
@@ -26,11 +27,13 @@ describe('Create User', () => {
 
     it('should not be possible to register a user with the same email', async () => {
         const newUser = makeUserCreate();
+        let result: any
         
         for (let i = 0; i < 2; i++) {
-            await sut.executar(newUser);
+            result = await sut.executar(newUser);
         }
 
         expect(inMemoryUserRepository.users.length).toBe(1);
+        expect(result.value.name).toBe('Error');
     })
 })

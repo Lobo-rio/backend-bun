@@ -2,12 +2,10 @@ import { beforeEach, describe, expect, it } from "bun:test";
 
 import FindManyUser from "./FindManyUser";
 import InMemoryUserRepository from "../../../external/shared/inMemory/InMemoryUserRepository";
-import Password from "../../shared/password/Password";
 import { makeUserCreate } from "../../../../test/factory/MakeUserCreate";
 
 let inMemoryUserRepository: InMemoryUserRepository;
 let sut:FindManyUser;
-let passwordEncrypt: Password;
 
 describe('FindMany User', () => {
 
@@ -18,6 +16,15 @@ describe('FindMany User', () => {
 
 
     it('should should be possible to search for many users', async () => {
-        expect(4 + 4).toBe(8)
+        for (let i = 0; i < 3; i++) {
+            const newUser = makeUserCreate();
+            await inMemoryUserRepository.create(newUser);
+        }
+
+        expect(inMemoryUserRepository.users.length).toBe(3);
+    })
+
+    it('should should not be possible to search for many users', async () => {
+        expect(inMemoryUserRepository.users.length).toBe(0);
     })
 })

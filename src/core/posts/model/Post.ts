@@ -4,4 +4,6 @@ export default interface Post {
     title: string
     content:   string
     published: boolean
+    createdAt?: Date
+    updatedAt?: Date
 }

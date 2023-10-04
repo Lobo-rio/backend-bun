@@ -10,7 +10,16 @@ export default class CreateUserController {
             const { name, email, password } = body as any;
             const user = await createUser.executar({ name, email, password });
             
-            return user;
+            if (user.value.name === 'Error'){
+                return new Response(
+                    user.value, {
+                        status: 400
+                    }
+                );
+            }
+
+            return user.value;
+            
         })
     }
 }
