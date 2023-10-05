@@ -1,8 +1,9 @@
-import Elysia from "elysia";
 import { app } from "./external/api/config";
 import { MakeUserInstantiateController } from "./external/shared/factories/MakeUserInstantiateController";
+import { MakePostInstantiateController } from "./external/shared/factories/MakePostInstantiateController";
 
 MakeUserInstantiateController(app);
+MakePostInstantiateController(app);
 
 app.listen(3000);
 

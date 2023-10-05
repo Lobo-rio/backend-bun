@@ -12,7 +12,7 @@ export default class FindByIdUserController {
             
             if (users.value.name === 'Error'){
                 return new Response(
-                    user.value, {
+                    users.value, {
                         status: 400
                     }
                 );

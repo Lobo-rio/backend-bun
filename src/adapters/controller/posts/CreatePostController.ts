@@ -1,5 +1,5 @@
 import Elysia from "elysia";
-import CreatePost from "../../../core/posts/usecase/CreatePost";
+import CreatePost, { CreatePostRequest } from "../../../core/posts/usecase/CreatePost";
 
 export default class CreatePostController {
     constructor(
@@ -7,7 +7,7 @@ export default class CreatePostController {
         readonly createPost: CreatePost
     ) {
         server.post('/posts', async ({ body }) => {
-            const { authorId, title, content } = body as any;
+            const { authorId, title, content } = body as CreatePostRequest;
             const post = await createPost.executar({ authorId, title, content });
             
             if (post.value.name === 'Error'){

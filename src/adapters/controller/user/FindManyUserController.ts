@@ -9,15 +9,7 @@ export default class FindManyUserController {
         server.get('/users', async () => {
             const users = await findManyUsers.executar();
             
-            if (users.value.name === 'Error'){
-                return new Response(
-                    users.value, {
-                        status: 400
-                    }
-                );
-            }
-
-            return users.value;
+            return users;
         })
     }
 }

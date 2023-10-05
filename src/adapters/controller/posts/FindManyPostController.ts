@@ -9,15 +9,7 @@ export default class FindManyPostController {
         server.get('/posts', async () => {
             const posts = await findManyPosts.executar();
             
-            if (posts.value.name === 'Error'){
-                return new Response(
-                    posts.value, {
-                        status: 400
-                    }
-                );
-            }
-
-            return posts.value;
+            return posts;
         })
     }
 }
