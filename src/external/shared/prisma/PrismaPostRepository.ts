@@ -24,14 +24,15 @@ export default class PrismaPostRepository implements PostRepository {
     }
 
     async create(data: CreatePostRequest): Promise<Post> {
-        const post =await this.repository.post.create({
+        const post = await this.repository.post.create({
             data: {
                 authorId: data.authorId,
                 title: data.title,
                 content: data.content,
                 published: true,
-            }
-        })
+                updatedAt: new Date(),
+            },
+          })
         return post;
     }
 
